@@ -1,4 +1,5 @@
 import telebot
+import re
 from pydub import AudioSegment
 from pydub.generators import Sine
 import time
@@ -68,21 +69,7 @@ def sta(message):
 @bot.message_handler(content_types=['text']) #получение сообщения
 def echo(message):
     try:
-        sabj = message.text
-        sabj = sabj.replace('.', ' ')
-        sabj = sabj.replace(',', ' ')
-        sabj = sabj.replace('-', ' ')
-        sabj = sabj.replace('/', ' ')
-        sabj = sabj.replace(':', ' ')
-        sabj = sabj.replace('!', ' ')
-        sabj = sabj.replace('$', ' ')
-        sabj = sabj.replace('#', ' ')
-        sabj = sabj.replace(';', ' ')
-        sabj = sabj.replace('"', ' ')
-        sabj = sabj.replace("'", ' ')
-        sabj = sabj.replace('%', ' ')
-        sabj = sabj.replace('|', ' ')
-        sabj = sabj.upper() #делаем все буквы большими
+        sabj = re.sub(r'[.,\-/:!$#;"\'%|]', ' ', message.text).upper() #делаем все буквы большими
         morz = premorz(sabj)
         bot.send_message(message.chat.id, text=morz)
         imfaj = 'Голосовое сообщение'
